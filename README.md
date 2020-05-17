@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # README
 
 This README would normally document whatever steps are necessary to get the
@@ -22,3 +23,7 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+=======
+# RailsInterviewApp
+An app which help's you schedule interviews.
+>>>>>>> 59a096a1df7d7e34f6d3bab61489d9f44bc073b6
