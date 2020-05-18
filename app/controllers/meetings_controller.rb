@@ -5,7 +5,7 @@ class MeetingsController < ApplicationController
   def index
     @meetings = Meeting.all
   end
-
+  
   def show
   end
 
@@ -17,13 +17,8 @@ class MeetingsController < ApplicationController
   end
 
   def create
-    # u = User.find_by(:id => params[:user_id])
-    # @meeting = Meeting.new(meeting_params)
-    @meeting = current_user.meetings.build(meeting_params)
-
-    # u = User.find_by(:id => params[:user_id])
-    # @meeting = Meeting.create(:user_id => u.id, :start_time => params[:start_time], :end_time => params[:end_time], :name => params[:name])
-
+    u = User.find_by(:user_name => params[:meeting][:user_name])
+    @meeting = Meeting.create(:user_id => u.id, :start_time => params[:meeting][:start_time], :end_time => params[:meeting][:end_time], :name => params[:meeting][:name])
 
     respond_to do |format|
       if @meeting.save
@@ -36,8 +31,6 @@ class MeetingsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /meetings/1
-  # PATCH/PUT /meetings/1.json
   def update
     respond_to do |format|
       if @meeting.update(meeting_params)
@@ -50,8 +43,6 @@ class MeetingsController < ApplicationController
     end
   end
 
-  # DELETE /meetings/1
-  # DELETE /meetings/1.json
   def destroy
     @meeting.destroy
     respond_to do |format|
@@ -64,10 +55,5 @@ class MeetingsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_meeting
       @meeting = Meeting.find(params[:id])
-    end
-
-    # Only allow a list of trusted parameters through.
-    def meeting_params
-      params.require(:meeting).permit(:name, :start_time, :end_time, :user_id, :user_name)
     end
 end
