@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Interviewapp</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+<head>
+	<title>Scheduly</title>
+	<%= csrf_meta_tags %>
+	<%= csp_meta_tag %>
 
-  <body>
-    <%= yield %>
-  </body>
+	<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+	<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+
+<body>
+	<header class="navbar">
+		<%= link_to  'Scheduly', '/' , class: "navbar-logo"%>
+		<% if user_signed_in? %>
+		<%= link_to "New Meeting", new_meeting_path, class: "navbar-links" %>
+		<%= link_to "Logout", destroy_user_session_path, method: :delete , class: "navbar-links"%>
+		<% else %>
+		<%= link_to "Login", new_user_session_path, class: "navbar-links" %>
+		<%= link_to "Register", new_user_registration_path ,class: "navbar-links" %>
+		<%end%>
+	</header>
+
+	<%= yield %>
+</body>
+
 </html>
