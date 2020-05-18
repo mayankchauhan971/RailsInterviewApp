@@ -7,6 +7,11 @@ class MeetingsController < ApplicationController
   end
 
   def show
+    puts("---------------------------------------------------------------------")
+    puts(meeting_params[:start_time])
+    puts(meeting_params[:name])
+    u = User.find_by(:user_name => meeting_params[:user_name])
+    @meeting = Meeting.find_by(:user_id => u.id)
   end
 
   def new
@@ -17,13 +22,18 @@ class MeetingsController < ApplicationController
   end
 
   def create
-    # u = User.find_by(:id => params[:user_id])
-    # @meeting = Meeting.new(meeting_params)
-    @meeting = current_user.meetings.build(meeting_params)
-
-    # u = User.find_by(:id => params[:user_id])
-    # @meeting = Meeting.create(:user_id => u.id, :start_time => params[:start_time], :end_time => params[:end_time], :name => params[:name])
-
+    @meeting = Meeting.new
+    u = User.find_by(:user_name => meeting_params[:user_name])
+    puts("------------------------------------")
+    puts(params)
+    puts(params[:meeting][:user_name])
+    puts(meeting_params[:user_name])
+    puts(meeting_params[:start_time])
+    puts(meeting_params[:end_time])
+    puts(meeting_params[:name])
+    puts("######################################")
+    @meeting = Meeting.create(:user_id => u.id, :start_time => meeting_params[:start_time], :end_time => meeting_params[:end_time], :name => meeting_params[:name])
+    
 
     respond_to do |format|
       if @meeting.save
@@ -36,8 +46,6 @@ class MeetingsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /meetings/1
-  # PATCH/PUT /meetings/1.json
   def update
     respond_to do |format|
       if @meeting.update(meeting_params)
@@ -50,8 +58,6 @@ class MeetingsController < ApplicationController
     end
   end
 
-  # DELETE /meetings/1
-  # DELETE /meetings/1.json
   def destroy
     @meeting.destroy
     respond_to do |format|
@@ -66,7 +72,6 @@ class MeetingsController < ApplicationController
       @meeting = Meeting.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def meeting_params
       params.require(:meeting).permit(:name, :start_time, :end_time, :user_id, :user_name)
     end
