@@ -4,11 +4,10 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.7.1'
 
 gem 'devise'
-gem 'tailwindcss', '~> 1.0.0'
-gem "simple_calendar", "~> 2.0"
 gem 'bootstrap', '~> 4.4.1'
 gem 'jquery-rails'
-gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
+gem 'sidekiq'
+gem "letter_opener"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.3'
