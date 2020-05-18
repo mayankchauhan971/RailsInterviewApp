@@ -5,13 +5,11 @@ class MeetingsController < ApplicationController
   def index
     @meetings = Meeting.all
   end
-
+  
   def show
-    puts("---------------------------------------------------------------------")
+    puts("----------------%%%%%%%-------------------")
     puts(meeting_params[:start_time])
-    puts(meeting_params[:name])
-    u = User.find_by(:user_name => meeting_params[:user_name])
-    @meeting = Meeting.find_by(:user_id => u.id)
+    puts(params[:start_time])
   end
 
   def new
@@ -22,18 +20,13 @@ class MeetingsController < ApplicationController
   end
 
   def create
+    puts("----------------------------------------------")
+    puts(params[:user_id])
+    puts(meeting_params[:user_id])
     @meeting = Meeting.new
     u = User.find_by(:user_name => meeting_params[:user_name])
-    puts("------------------------------------")
-    puts(params)
-    puts(params[:meeting][:user_name])
-    puts(meeting_params[:user_name])
-    puts(meeting_params[:start_time])
-    puts(meeting_params[:end_time])
-    puts(meeting_params[:name])
-    puts("######################################")
+    puts(u)
     @meeting = Meeting.create(:user_id => u.id, :start_time => meeting_params[:start_time], :end_time => meeting_params[:end_time], :name => meeting_params[:name])
-    
 
     respond_to do |format|
       if @meeting.save
@@ -73,6 +66,6 @@ class MeetingsController < ApplicationController
     end
 
     def meeting_params
-      params.require(:meeting).permit(:name, :start_time, :end_time, :user_id, :user_name)
+      # params.permit(:name, :start_time, :end_time, :user_id, :user_name, :authenticity_token, :meeting, :commit)
     end
 end
