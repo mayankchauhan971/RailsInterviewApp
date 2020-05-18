@@ -17,7 +17,7 @@
 
 <p>
   <strong>User:</strong>
-  <%= @meeting.user_id %>
+  <%= @meeting.user.user_name %>
 </p>
 
 <%= link_to 'Edit', edit_meeting_path(@meeting) %> |

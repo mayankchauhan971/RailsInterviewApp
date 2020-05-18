@@ -7,9 +7,6 @@ class MeetingsController < ApplicationController
   end
   
   def show
-    puts("----------------%%%%%%%-------------------")
-    puts(meeting_params[:start_time])
-    puts(params[:start_time])
   end
 
   def new
@@ -20,13 +17,8 @@ class MeetingsController < ApplicationController
   end
 
   def create
-    puts("----------------------------------------------")
-    puts(params[:user_id])
-    puts(meeting_params[:user_id])
-    @meeting = Meeting.new
-    u = User.find_by(:user_name => meeting_params[:user_name])
-    puts(u)
-    @meeting = Meeting.create(:user_id => u.id, :start_time => meeting_params[:start_time], :end_time => meeting_params[:end_time], :name => meeting_params[:name])
+    u = User.find_by(:user_name => params[:meeting][:user_name])
+    @meeting = Meeting.create(:user_id => u.id, :start_time => params[:meeting][:start_time], :end_time => params[:meeting][:end_time], :name => params[:meeting][:name])
 
     respond_to do |format|
       if @meeting.save
@@ -63,9 +55,5 @@ class MeetingsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_meeting
       @meeting = Meeting.find(params[:id])
-    end
-
-    def meeting_params
-      # params.permit(:name, :start_time, :end_time, :user_id, :user_name, :authenticity_token, :meeting, :commit)
     end
 end
