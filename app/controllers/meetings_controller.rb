@@ -18,12 +18,12 @@ class MeetingsController < ApplicationController
 
   def create
     u = User.find_by(:user_name => params[:meeting][:user_name])
-    @meeting = Meeting.create(:user_id => u.id, :start_time => params[:meeting][:start_time], :end_time => params[:meeting][:end_time], :name => params[:meeting][:name])
+    @meeting = Meeting.create(:user_id => u.id, :start_time => params[:meeting][:start_time], :end_time => params[:meeting][:end_time], :name => params[:meeting][:name], :resume => params[:meeting][:resume])
 
     respond_to do |format|
       if @meeting.save
         format.html { redirect_to @meeting, notice: 'Meeting was successfully created.' }
-        UserMailer.reminder_email.deliver_now
+        UserMailer.with(:user_id => u.id).reminder_email.deliver_later(wait_until: @meeting.start_time - 30.minutes)
         format.json { render :show, status: :created, location: @meeting }
       else
         format.html { render :new }
@@ -36,6 +36,7 @@ class MeetingsController < ApplicationController
     respond_to do |format|
       if @meeting.update(meeting_params)
         format.html { redirect_to @meeting, notice: 'Meeting was successfully updated.' }
+        UserMailer.with(:user_id => u.id).updation_email.deliver_later(wait_until: @meeting.start_time - 30.minutes)
         format.json { render :show, status: :ok, location: @meeting }
       else
         format.html { render :edit }
