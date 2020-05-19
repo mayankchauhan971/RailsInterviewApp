@@ -3,7 +3,7 @@ class MeetingsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @meetings = Meeting.all
+    @meetings = Meeting.where(name: current_user.user_name).or(Meeting.where(user: current_user))
   end
   
   def show
@@ -23,6 +23,7 @@ class MeetingsController < ApplicationController
     respond_to do |format|
       if @meeting.save
         format.html { redirect_to @meeting, notice: 'Meeting was successfully created.' }
+        UserMailer.reminder_email.deliver_now
         format.json { render :show, status: :created, location: @meeting }
       else
         format.html { render :new }
@@ -55,5 +56,9 @@ class MeetingsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_meeting
       @meeting = Meeting.find(params[:id])
+    end
+
+    def meeting_params
+      params.permit(:name, :start_time, :end_time, :user_id, :user_name, :resume)
     end
 end
